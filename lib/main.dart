@@ -1,6 +1,11 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:icasicapp/Sessions.dart';
+import 'Sessions.dart';
+import 'partners.dart';
+import 'speakers.dart';
 
 
 void main() => runApp(MyApp());
@@ -13,6 +18,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: _title,
+        theme: ThemeData(
+        primarySwatch: Colors.purple,
+      ),
       home: MyStatefulWidget(),
     );
   }
@@ -26,33 +34,14 @@ class MyStatefulWidget extends StatefulWidget {
 }
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
- 
-
-
-
-  
-
   @override
   Widget build(BuildContext context) {
-
-
-   
-
-
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Page Title'),
-        backgroundColor: Colors.purple,
-      ),
-      body: Container(),
-      bottomNavigationBar: BottomNavigationBar(
+    return Scaffold( 
+      appBar: AppBar(title: Text('page'),),
+      body:
+      
+      CupertinoTabScaffold(
+        tabBar: CupertinoTabBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -67,12 +56,29 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             title: Text('Partners'),
           ),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.purple[800],
-        onTap: _onItemTapped,
+     
       ),
-      drawer:
-    
+
+
+
+       tabBuilder: (BuildContext context, int index) {
+        assert(index >= 0 && index <= 2);
+        switch (index) {
+          case 0:
+            return new SessionsPage();
+             
+            break;
+          case 1:
+            return new SpeakersPage();
+            break;
+          case 2:
+            return new PartnersPage();
+            break;
+        }
+        return null;
+       },
+      ),
+      drawer:  
       Drawer(
         
         child: Column(
@@ -124,7 +130,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             
           ],
         ),
-      ),
-    );
+      ));
+    
   }
 }
